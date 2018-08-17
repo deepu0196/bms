@@ -166,7 +166,7 @@ public class BookMyShowApplicationTests {
         List<MovieDto> movies = Arrays.asList(
                 new MovieDto(1, "harrypotter","hollywood","fiction","imagelink"),
                 new MovieDto(2, "blackmail","hollywood","fiction","imagelink"));
-        when(movieService.fetchAllBollywoodMovies()).thenReturn(movies);
+        when(movieService.fetchAllHollywoodMovies()).thenReturn(movies);
         mockMvc.perform(get("/bms/hollywoodmovies"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].movieid", is(1)))
@@ -175,7 +175,7 @@ public class BookMyShowApplicationTests {
                 .andExpect(jsonPath("$[1].moviename", is("blackmail")))
 		        .andExpect(jsonPath("$[1].language", is("hollywood")))
 		        .andExpect(jsonPath("$[1].genere", is("fiction")));
-        verify(movieService, times(1)).fetchAllBollywoodMovies();
+        verify(movieService, times(1)).fetchAllHollywoodMovies();
         verifyNoMoreInteractions(movieService);
     }
 
