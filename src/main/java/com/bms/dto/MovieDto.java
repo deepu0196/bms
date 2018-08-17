@@ -26,6 +26,11 @@ public class MovieDto {
 	public void setMoviename(String moviename) {
 		this.moviename = moviename;
 	}
+	
+	public MovieDto() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public MovieDto(Integer movieid, String moviename, String language, String genere, String img) {
 		super();
 		this.movieid = movieid;

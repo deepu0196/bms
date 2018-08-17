@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,67 +22,70 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.bms.controller.MovieController;
 import com.bms.dto.MovieDto;
 import com.bms.service.MovieServiceImpl;
- 
 
 public class MovieTest {
 
 	private MockMvc mockMvc;
 
-    @Mock
-    private MovieServiceImpl movieService;
+	@Mock
+	private MovieServiceImpl movieService;
 
-    @InjectMocks
-    private MovieController movieController;
+	@InjectMocks
+	private MovieController movieController;
 
-    @Before
-    public void init(){
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(movieController)
-                .addFilters(new CorsFilter())
-                .build();
-    }
-    
-    @Test
-    public void test_get_all_success() throws Exception {
-        List<MovieDto> movies = Arrays.asList(
-                new MovieDto(1, "harrypotter","hollywood","fiction","imagelink"),
-                new MovieDto(2, "blackmail","bollywood","fiction","imagelink"));
-        when(movieService.fetchAllMovies()).thenReturn(movies);
-        mockMvc.perform(get("/bms/allMovies"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].movieid", is(1)))
-                .andExpect(jsonPath("$[0].moviename", is("harrypotter")))
-                .andExpect(jsonPath("$[1].movieid", is(2)))
-                .andExpect(jsonPath("$[1].moviename", is("blackmail")));
-        verify(movieService, times(1)).fetchAllMovies();
-        verifyNoMoreInteractions(movieService);
-    }
-    
-    @Test
+	@Before
+	public void init() {
+		MockitoAnnotations.initMocks(this);
+		mockMvc = MockMvcBuilders.standaloneSetup(movieController).addFilters(new CorsFilter()).build();
+	}
+
+	@Test
+	public void test_get_all_success() throws Exception {
+		List<MovieDto> movies = Arrays.asList(new MovieDto(1, "harrypotter", "hollywood", "fiction", "imagelink"),
+				new MovieDto(2, "blackmail", "bollywood", "fiction", "imagelink"));
+		when(movieService.fetchAllMovies()).thenReturn(movies);
+		mockMvc.perform(get("/bms/allMovies")).andExpect(status().isOk()).andExpect(jsonPath("$[0].movieid", is(1)))
+				.andExpect(jsonPath("$[0].moviename", is("harrypotter"))).andExpect(jsonPath("$[1].movieid", is(2)))
+				.andExpect(jsonPath("$[1].moviename", is("blackmail")));
+		verify(movieService, times(1)).fetchAllMovies();
+		verifyNoMoreInteractions(movieService);
+	}
+
+	@Test
     public void test_get_bollywood_success() throws Exception {
         List<MovieDto> movies = Arrays.asList(
                 new MovieDto(1, "harrypotter","bollywood","fiction","imagelink"),
                 new MovieDto(2, "blackmail","bollywood","fiction","imagelink"));
         when(movieService.fetchAllBollywoodMovies()).thenReturn(movies);
-        mockMvc.perform(get("/bms/allMovies"))
+        mockMvc.perform(get("/bms/bollywoodmovies"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].movieid", is(1)))
                 .andExpect(jsonPath("$[0].moviename", is("harrypotter")))
                 .andExpect(jsonPath("$[1].movieid", is(2)))
-                .andExpect(jsonPath("$[1].moviename", is("blackmail")));
-        
+                .andExpect(jsonPath("$[1].moviename", is("blackmail")))
+		        .andExpect(jsonPath("$[1].language", is("bollywood")))
+		        .andExpect(jsonPath("$[1].genere", is("fiction")));
         verify(movieService, times(1)).fetchAllBollywoodMovies();
         verifyNoMoreInteractions(movieService);
     }
-    
-   
-    
-    
+
+
+	@Test
+    public void test_get_bollywood__no_success() throws Exception {
+        List<MovieDto> movies = new ArrayList<>();
+        when(movieService.fetchAllBollywoodMovies()).thenReturn(movies);
+        mockMvc.perform(get("/bms/bollywoodmovies"))
+	        .andExpect(status().isNotFound());
+	        verify(movieService, times(1)).fetchAllBollywoodMovies();
+	        verifyNoMoreInteractions(movieService);
+    }
+
+
 }
