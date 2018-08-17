@@ -1,4 +1,4 @@
-package com.bms.controllertest;
+package com.bms.test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.times;
@@ -65,14 +65,23 @@ public class MovieTest {
     }
     
     @Test
-    public void test_get_by_id_fail_404_not_found() throws Exception {
-        when(movieService.fetchAllBollywoodMovies()).thenReturn(null);
-        mockMvc.perform(get("/bms/bollywoodmovies"))
-                .andExpect(status().isNotFound());
+    public void test_get_bollywood_success() throws Exception {
+        List<MovieDto> movies = Arrays.asList(
+                new MovieDto(1, "harrypotter","bollywood","fiction","imagelink"),
+                new MovieDto(2, "blackmail","bollywood","fiction","imagelink"));
+        when(movieService.fetchAllBollywoodMovies()).thenReturn(movies);
+        mockMvc.perform(get("/bms/allMovies"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].movieid", is(1)))
+                .andExpect(jsonPath("$[0].moviename", is("harrypotter")))
+                .andExpect(jsonPath("$[1].movieid", is(2)))
+                .andExpect(jsonPath("$[1].moviename", is("blackmail")));
+        
         verify(movieService, times(1)).fetchAllBollywoodMovies();
         verifyNoMoreInteractions(movieService);
     }
     
+   
     
     
 }

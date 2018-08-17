@@ -16,6 +16,6 @@ public interface IUserService {
 
 	public List<UserDto> fetchAllUser();
 
-	public ResponseData logoutFunction(UserDto userDto, HttpServletRequest request);
+	public ResponseData logoutFunction(HttpServletRequest request);
 
 }

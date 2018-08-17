@@ -108,7 +108,7 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public ResponseData logoutFunction(UserDto userDto, HttpServletRequest request) {
+	public ResponseData logoutFunction(HttpServletRequest request) {
 		String token=request.getHeader("Authorization");
 		iredis.deleteValue(token);
 		ResponseData responseDto=new ResponseData();

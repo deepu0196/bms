@@ -60,8 +60,8 @@ public class LoginController {
 	
 	//LOGOUT
 	@RequestMapping(value = "/logout", method = RequestMethod.DELETE)
-	public ResponseData Logout(@RequestBody UserDto userDto,HttpServletRequest request) {
-		ResponseData response = userService.logoutFunction(userDto,request);
+	public ResponseData Logout(HttpServletRequest request) {
+		ResponseData response = userService.logoutFunction(request);
 		return response;
 	}
 
