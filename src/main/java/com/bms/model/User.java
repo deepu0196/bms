@@ -6,7 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -16,16 +18,17 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userid;
-	@NotNull
+	 
+	@NotBlank
 	@Email(message="Enter Unique Email Id Ex: abc@xyz.pqr")
 	@Column(name = "username")
 	private String username;
 	
-	@NotNull(message="Mobile No. cannot be Blank")
+	@NotBlank(message="Mobile No. cannot be Blank")
 	@Column(name = "mobileno")
 	private String mobileno;
 	
-	@NotNull(message="Password cannot be Blank")
+	@NotBlank(message="Password cannot be Blank")
 	@Column(name = "password")
 	private String password;
 	

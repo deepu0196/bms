@@ -93,7 +93,7 @@ public class UserServiceImpl implements IUserService{
 	 
 
 	@Override
-	public List<UserDto> fetchAllUser() throws BookMyShowException {
+	public List<UserDto> fetchAllUser()   {
 		List<User> userList = userRepository.findAll();
 		List<UserDto>  userDtoList = new ArrayList<>();
 		UserDto userDto = new UserDto();
@@ -101,9 +101,7 @@ public class UserServiceImpl implements IUserService{
 			userDto = modelMapper.map(user, UserDto.class);
 			userDtoList.add(userDto);
 		}
-		if (userDtoList.isEmpty()) {
-			throw new  BookMyShowException("No users Registered..");
-		}
+		 
 		return userDtoList;
 		
 		 

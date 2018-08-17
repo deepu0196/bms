@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().logout().disable().authorizeRequests()
-				.antMatchers("/bms/*", "/bms/signUp","/bms/allUsers").permitAll().and().authorizeRequests().anyRequest()
+				.antMatchers("/bms/*", "/bms/signUp","/bms/allUsers","/bms/allMovies","/bms/hollywoodmovies","/bms/fictionmovies").permitAll().and().authorizeRequests().anyRequest()
 				.authenticated().and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/bms/*", "/bms/signUp","/bms/allUsers");
+		web.ignoring().antMatchers("/bms/*", "/bms/signUp","/bms/allUsers","/bms/allMovies","/bms/fictionmovies");
 	}
 
 	@Bean

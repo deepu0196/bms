@@ -2,21 +2,22 @@ package com.bms.dto;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class UserDto {
 	
 	private Integer userid;
 	
-	@NotNull
+	@NotBlank
 	@Email(message="Enter Unique Email Id Ex: abc@xyz.pqr")
 	@Column(name = "username")
 	private String username;
 	
-	@NotNull(message="Mobile No. cannot be Blank")
+	@NotBlank(message="Mobile No. cannot be Blank")
 	private String mobileno;
 	
-	@NotNull(message="Password cannot be Blank")
+	@NotBlank(message="Password cannot be Blank")
 	private String password;
 	
 	public String getPassword() {
@@ -45,4 +46,19 @@ public class UserDto {
 	public void setMobileno(String mobileno) {
 		this.mobileno = mobileno;
 	}
+	
+	public UserDto() {
+		// TODO Auto-generated constructor stub
+	}
+	public UserDto(Integer userid, @NotBlank @Email(message = "Enter Unique Email Id Ex: abc@xyz.pqr") String username,
+			@NotBlank(message = "Mobile No. cannot be Blank") String mobileno,
+			@NotBlank(message = "Password cannot be Blank") String password) {
+		super();
+		this.userid = userid;
+		this.username = username;
+		this.mobileno = mobileno;
+		this.password = password;
+	}
+	
+	
 }

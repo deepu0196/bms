@@ -35,7 +35,7 @@ public class IRedisServiceImpl implements IRedisService {
 	@Override
 	public void setValue(String key, String value) {
 		template.opsForValue().set(key, value);
-		template.expire(key, 5, TimeUnit.MINUTES);
+		template.expire(key, 50, TimeUnit.MINUTES);
 
 	}
 

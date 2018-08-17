@@ -14,7 +14,7 @@ public interface IUserService {
 
 	public String registerFunction(UserDto userDto);
 
-	public List<UserDto> fetchAllUser() throws BookMyShowException;
+	public List<UserDto> fetchAllUser();
 
 	public ResponseData logoutFunction(UserDto userDto, HttpServletRequest request);
 
