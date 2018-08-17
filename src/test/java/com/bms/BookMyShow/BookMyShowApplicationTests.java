@@ -56,6 +56,13 @@ public class BookMyShowApplicationTests {
 	}
 
 	private MockMvc mockMvc;
+	
+	@Mock
+	private MovieServiceImpl movieService;
+
+	@InjectMocks
+	private MovieController movieController;
+
 
     @MockBean
     private UserServiceImpl userService;
@@ -63,6 +70,9 @@ public class BookMyShowApplicationTests {
 	@MockBean
 	UserRepository userRepository;
 	
+	@InjectMocks
+    private UserController userController;
+
     @LocalServerPort
 	Integer port;
 
@@ -92,6 +102,50 @@ public class BookMyShowApplicationTests {
 		Assertions.assertThat(response.size()).isEqualTo(1);
 		Assertions.assertThat(response.get(0).getUsername()).isEqualTo("john");
 	}
+	
+
+    @Before
+    public void init(){
+        MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(userController, movieController)
+                .addFilters(new CorsFilter())
+                .build();
+    }
+    
+    @Test
+    public void test_get_all_success() throws Exception {
+        List<UserDto> users = Arrays.asList(
+                new UserDto(1, "dae@gmail.com","dae123$","7894561001"),
+                new UserDto(2, "john@gmail.com","john123$","7898940003"));
+        when(userService.fetchAllUser()).thenReturn(users);
+        mockMvc.perform(get("/bms/allUsers"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].userid", is(1)))
+                .andExpect(jsonPath("$[0].username", is("dae@gmail.com")))
+                .andExpect(jsonPath("$[1].userid", is(2)))
+                .andExpect(jsonPath("$[1].username", is("john@gmail.com")));
+        verify(userService, times(1)).fetchAllUser();
+        verifyNoMoreInteractions(userService);
+    }
+    
+    @Test
+	public void test_get_all_success1() throws Exception {
+		List<MovieDto> movies = Arrays.asList
+				(new MovieDto(1, "harrypotter", "hollywood", "fiction", "imagelink"),
+				new MovieDto(2, "blackmail", "bollywood", "fiction", "imagelink"));
+		when(movieService.fetchAllMovies()).thenReturn(movies);
+		mockMvc.perform(get("/bms/allMovies"))
+		.andExpect(status().isOk()).andExpect(jsonPath("$[0].movieid", is(1)))
+				.andExpect(jsonPath("$[0].moviename", is("harrypotter"))).andExpect(jsonPath("$[1].movieid", is(2)))
+				.andExpect(jsonPath("$[1].moviename", is("blackmail")));
+		verify(movieService, times(1)).fetchAllMovies();
+		verifyNoMoreInteractions(movieService);
+	}
+
+
+    
+	
 	
 	
 	

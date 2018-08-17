@@ -34,40 +34,35 @@ public class MovieController {
 
 	@RequestMapping(value = "/allMovies", method = RequestMethod.GET)
 	public List<MovieDto> displayMovies(HttpServletRequest request) {
-		List<MovieDto> movieDto = movieService.fetchAllMovies();
-		return  movieDto;
+		return  movieService.fetchAllMovies();
 	}
 	
 	@RequestMapping(value = "/bollywoodmovies", method = RequestMethod.GET)
 	public List<MovieDto> displayBollyMovies(HttpServletRequest request) {
-		List<MovieDto> movieDto1 = movieService.fetchAllBollywoodMovies();
-		return  movieDto1;
+		return  movieService.fetchAllBollywoodMovies();
 	}
 	
 
 	@RequestMapping(value = "/hollywoodmovies", method = RequestMethod.GET)
 	public List<MovieDto> displayHollyMovies(HttpServletRequest request) {
-		List<MovieDto> movieDto2 = movieService.fetchAllHollywoodMovies();
-		return  movieDto2;
+		return movieService.fetchAllHollywoodMovies();
 	}
 	
 	@RequestMapping(value = "/fictionmovies", method = RequestMethod.GET)
 	public List<MovieDto> displayFictionMovies(HttpServletRequest request) {
-		List<MovieDto> movieDto3 = movieService.fetchAllFictionMovies();
-		return  movieDto3;
+		return   movieService.fetchAllFictionMovies();
 	}
 	
 	@RequestMapping(value = "/horrormovies", method = RequestMethod.GET)
 	public List<MovieDto> displayHorrorMovies(HttpServletRequest request) {
-		List<MovieDto> movieDto4 = movieService.fetchAllHorrorMovies();
-		return  movieDto4;
+		return  movieService.fetchAllHorrorMovies();
 	}
 	
-	@RequestMapping(value = "/{language}/{genere}", method = RequestMethod.GET)
+/*	@RequestMapping(value = "/{language}/{genere}", method = RequestMethod.GET)
 	public List<MovieDto> retrieveCategoryAuthorsBlogs(@PathVariable("language") String language, @PathVariable("genere") String genere){
 		return movieService.fetchTypeGenreMovies(language, genere);
 	
 		
-	}
+	}*/
 	
 }
