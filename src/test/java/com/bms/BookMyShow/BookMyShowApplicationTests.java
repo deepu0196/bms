@@ -114,7 +114,7 @@ public class BookMyShowApplicationTests {
     }
     
     @Test
-    public void test_get_all_success() throws Exception {
+    public void fetchAllUserTest1() throws Exception {
         List<UserDto> users = Arrays.asList(
                 new UserDto(1, "dae@gmail.com","dae123$","7894561001"),
                 new UserDto(2, "john@gmail.com","john123$","7898940003"));
@@ -130,7 +130,7 @@ public class BookMyShowApplicationTests {
     }
     
     @Test
-	public void test_get_all_success1() throws Exception {
+	public void fetchAllMoviesTest() throws Exception {
 		List<MovieDto> movies = Arrays.asList
 				(new MovieDto(1, "harrypotter", "hollywood", "fiction", "imagelink"),
 				new MovieDto(2, "blackmail", "bollywood", "fiction", "imagelink"));
@@ -142,6 +142,45 @@ public class BookMyShowApplicationTests {
 		verify(movieService, times(1)).fetchAllMovies();
 		verifyNoMoreInteractions(movieService);
 	}
+    
+    @Test
+    public void fetchAllBollywoodMoviesTest() throws Exception {
+        List<MovieDto> movies = Arrays.asList(
+                new MovieDto(1, "harrypotter","bollywood","fiction","imagelink"),
+                new MovieDto(2, "blackmail","bollywood","fiction","imagelink"));
+        when(movieService.fetchAllBollywoodMovies()).thenReturn(movies);
+        mockMvc.perform(get("/bms/bollywoodmovies"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].movieid", is(1)))
+                .andExpect(jsonPath("$[0].moviename", is("harrypotter")))
+                .andExpect(jsonPath("$[1].movieid", is(2)))
+                .andExpect(jsonPath("$[1].moviename", is("blackmail")))
+		        .andExpect(jsonPath("$[1].language", is("bollywood")))
+		        .andExpect(jsonPath("$[1].genere", is("fiction")));
+        verify(movieService, times(1)).fetchAllBollywoodMovies();
+        verifyNoMoreInteractions(movieService);
+    }
+
+    @Test
+    public void fetchAllHollywoodMoviesTest() throws Exception {
+        List<MovieDto> movies = Arrays.asList(
+                new MovieDto(1, "harrypotter","hollywood","fiction","imagelink"),
+                new MovieDto(2, "blackmail","hollywood","fiction","imagelink"));
+        when(movieService.fetchAllBollywoodMovies()).thenReturn(movies);
+        mockMvc.perform(get("/bms/hollywoodmovies"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].movieid", is(1)))
+                .andExpect(jsonPath("$[0].moviename", is("harrypotter")))
+                .andExpect(jsonPath("$[1].movieid", is(2)))
+                .andExpect(jsonPath("$[1].moviename", is("blackmail")))
+		        .andExpect(jsonPath("$[1].language", is("hollywood")))
+		        .andExpect(jsonPath("$[1].genere", is("fiction")));
+        verify(movieService, times(1)).fetchAllBollywoodMovies();
+        verifyNoMoreInteractions(movieService);
+    }
+
+    
+    
 
 
     
