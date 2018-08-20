@@ -179,6 +179,41 @@ public class BookMyShowApplicationTests {
         verifyNoMoreInteractions(movieService);
     }
 
+    @Test
+    public void fetchAllFictionMoviesTest() throws Exception {
+        List<MovieDto> movies = Arrays.asList(
+                new MovieDto(1, "harrypotter","hollywood","fiction","imagelink"),
+                new MovieDto(2, "blackmail","hollywood","fiction","imagelink"));
+        when(movieService.fetchAllFictionMovies()).thenReturn(movies);
+        mockMvc.perform(get("/bms/fictionmovies"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].movieid", is(1)))
+                .andExpect(jsonPath("$[0].moviename", is("harrypotter")))
+                .andExpect(jsonPath("$[1].movieid", is(2)))
+                .andExpect(jsonPath("$[1].moviename", is("blackmail")))
+		        .andExpect(jsonPath("$[1].language", is("hollywood")))
+		        .andExpect(jsonPath("$[1].genere", is("fiction")));
+        verify(movieService, times(1)).fetchAllFictionMovies();
+        verifyNoMoreInteractions(movieService);
+    }
+    
+    @Test
+    public void fetchAllHorrorMoviesTest() throws Exception {
+        List<MovieDto> movies = Arrays.asList(
+                new MovieDto(1, "harrypotter","hollywood","fiction","imagelink"),
+                new MovieDto(2, "blackmail","hollywood","fiction","imagelink"));
+        when(movieService.fetchAllHorrorMovies()).thenReturn(movies);
+        mockMvc.perform(get("/bms/horrormovies"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].movieid", is(1)))
+                .andExpect(jsonPath("$[0].moviename", is("harrypotter")))
+                .andExpect(jsonPath("$[1].movieid", is(2)))
+                .andExpect(jsonPath("$[1].moviename", is("blackmail")))
+		        .andExpect(jsonPath("$[1].language", is("hollywood")))
+		        .andExpect(jsonPath("$[1].genere", is("fiction")));
+        verify(movieService, times(1)).fetchAllHorrorMovies();
+        verifyNoMoreInteractions(movieService);
+    }
     
     
 
